@@ -17,12 +17,17 @@ export class WebClient
         return await this.send('PUT', url, body, params);
     }
 
+    public static async patch<T>(url: string, body: any, params: { [key: string]: string } = {}): Promise<T>
+    {
+        return await this.send('PATCH', url, body, params);
+    }
+
     public static async delete<T>(url: string, params: { [key: string]: string } = {}): Promise<T>
     {
         return await this.send('DELETE', url, null, params);
     }
 
-    private static async send<T>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, body: any, params: { [key: string]: string } = {}): Promise<T>
+    private static async send<T>(method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE', url: string, body: any, params: { [key: string]: string } = {}): Promise<T>
     {
         const options: any = {
             method,
@@ -41,6 +46,8 @@ export class WebClient
                 return await request.post(options) as T;
             case 'PUT':
                 return await request.put(options) as T;
+            case 'PATCH':
+                return await request.patch(options) as T;
             case 'DELETE':
                 return await request.delete(options) as T;
             default:
